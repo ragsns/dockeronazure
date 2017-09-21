@@ -2,7 +2,7 @@
 
 ## Exercise 1: Login to Azure
 
-**STOP** Please ensure that you have met all the prereqisites as mentioned [earlier] (../../README.md).
+**STOP**! Please ensure that you have met all the prereqisites as mentioned [earlier](../../README.md).
 
 Login to Azure via the CLI. Instructions are at [https://docs.microsoft.com/en-us/azure/xplat-cli-connect](https://docs.microsoft.com/en-us/azure/xplat-cli-connect).
 
