@@ -24,8 +24,8 @@ Each directory is in a separate sub-directory. ***Ensure that you're in the sub-
 
 It is recommended that you run through these exercises sequentially since they are progressive with some dependencies. Each exercise should take about 10-20 mins. to complete.
 
-- Exercise 1: [Login to Azure](exercises/ex1)
-- Exercise 2: [Gentle Intro to Docker](exercises/ex2)
+- Exercise 1: [Login to Azure and Spin up Docker VMs](exercises/ex1)
+- Exercise 2: [Gentle Intro to Docker](exercises/ex2) - Skip this if you're already familiar with Docker
 - Exercise 3: [Docker Compose](exercises/ex3)
 - Exercise 4: [Docker Swarm](exercises/ex4)
 - Exercise 5: [Kubernetes or K8S](exercises/ex5)
@@ -38,6 +38,8 @@ It is recommended that you run through these exercises sequentially since they a
 Docker Getting Started Material at [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
 
 Kubernetes at [https://kubernetes.io/docs/tutorials/kubernetes-basics/](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
+
+Docker Swarm on Azure at [https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-swarm-mode-walkthrough](https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-swarm-mode-walkthrough)
 
 Kubernetes on Azure at [https://blogs.msdn.microsoft.com/azureedu/2017/04/23/how-can-i-get-started-with-kubernetes-on-azure-container-services/](https://blogs.msdn.microsoft.com/azureedu/2017/04/23/how-can-i-get-started-with-kubernetes-on-azure-container-services/)
 
