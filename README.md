@@ -8,11 +8,13 @@ Needless to say you'll need a laptop! Any OS is fine (Mac is recommended and tha
 
 - **Prerequisite 2:** A valid Azure subscription is available. You can get a trial account from [https://azure.microsoft.com/en-us/free/](https://azure.microsoft.com/en-us/free/).
 
-- **Prerequisite 3:** The `az` CLI from [https://github.com/Azure/azure-cli] (https://github.com/Azure/azure-cli) is installed on the laptop **OR** you can use the cloud shell as outlined in [https://docs.microsoft.com/en-us/azure/cloud-shell/overview] (https://docs.microsoft.com/en-us/azure/cloud-shell/overview)
+- **Prerequisite 3:** The `az` CLI from [https://github.com/Azure/azure-cli] (https://github.com/Azure/azure-cli) is installed on the laptop **OR** you can use the cloud shell as outlined in [https://docs.microsoft.com/en-us/azure/cloud-shell/overview](https://docs.microsoft.com/en-us/azure/cloud-shell/overview)
 
 - **Prerequisite 4:** Limits in Azure are set low. File support tickets to get the limits bumped up for your subscriptions. We will need cores (60-100 recommended) to be spun up in West UK which supports some of the configurations.
 
-- **Prerequiste 5** The labs from [https://github.com/ragsns/dockeronazure.git](https://github.com/ragsns/dockeronazure.git) installed **locally** either via a `git clone` command or by downloading a zip file from the remote repository.
+- **Prerequisite 5:** A Docker Hub account from [https://hub.docker.com/](https://hub.docker.com/). This is **optional** if you're OK skipping portions of a few exercises.
+
+- **Prerequiste 6** The labs from [https://github.com/ragsns/dockeronazure.git](https://github.com/ragsns/dockeronazure.git) installed **locally** either via a `git clone` command or by downloading a zip file from the remote repository.
 
 
 ## Samples and General Directions
