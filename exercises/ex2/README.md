@@ -87,7 +87,7 @@ docker images
 Let's try the following now
 
 ```
-docker run -p 80:8080 -d ragsns/spring-boot
+docker run --name spring-boot -p 80:8080 -d ragsns/spring-boot
 ```
 
 This pulls the spring boot app. and runs it locally forwarding the port 8080 to 80 locally. Notice that it uses a Docker Hub ID `ragsns` unlike some generally available images.
@@ -102,7 +102,7 @@ The output would look something like below. Notice that the port 8080 of the app
 
 ```
 CONTAINER ID        IMAGE                COMMAND                CREATED             STATUS              PORTS                  NAMES
-b471f48b2c40        ragsns/spring-boot   "/bin/sh -c /run.sh"   16 seconds ago      Up 14 seconds       0.0.0.0:80->8080/tcp   confident_carson
+b471f48b2c40        ragsns/spring-boot   "/bin/sh -c /run.sh"   16 seconds ago      Up 14 seconds       0.0.0.0:80->8080/tcp   spring-boot
 ```
 
 Using the `curl` command to the end point as below
@@ -206,10 +206,10 @@ Which yields an output which looks something like below indicating the app termi
 
 ```
 CONTAINER ID        IMAGE                COMMAND                CREATED             STATUS                     PORTS               NAMES
-2fb5ba74f7e4        ragsns/spring-boot   "/bin/sh -c /run.sh"   12 seconds ago      Exited (0) 3 seconds ago                       unruffled_carson
+2fb5ba74f7e4        ragsns/spring-boot   "/bin/sh -c /run.sh"   12 seconds ago      Exited (0) 3 seconds ago                       spring-boot
 ```
 
-Note that Application self-healing is not supported in simple scenarios. We will look at apects of application self-healing in the context of the same app. which is provided by some of the Docker frameworks on Azure.
+As evidenced above Application self-healing is not supported in these simple scenarios not involving orchestrators and/or container services. We will look at apects of application self-healing in the context of the same app. which is provided by some of the Docker frameworks on Azure.
 
 #### Pushing a Docker image
 
