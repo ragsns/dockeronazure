@@ -12,9 +12,11 @@ Needless to say you'll need a laptop! Any OS is fine (Mac is recommended and tha
 
 - **Prerequisite 4:** Limits in Azure are set low. File support tickets to get the limits bumped up for your subscriptions. We will need cores (60-100 recommended) to be spun up in West UK which supports some of the configurations.
 
-- **Prerequisite 5:** A Docker Hub account from [https://hub.docker.com/](https://hub.docker.com/). This is **optional** if you're OK skipping portions of a few exercises.
+- **Prerequisite 5:** A familiarity with the Azure portal and the CLI (attended a 1-day Azure course for instance).
 
-- **Prerequiste 6** The labs from [https://github.com/ragsns/dockeronazure.git](https://github.com/ragsns/dockeronazure.git) installed **locally** either via a `git clone` command or by downloading a zip file from the remote repository.
+- **Prerequisite 6:** A Docker Hub account from [https://hub.docker.com/](https://hub.docker.com/). This is **optional** if you're OK skipping portions of a few exercises.
+
+- **Prerequiste 7** The labs from [https://github.com/ragsns/dockeronazure.git](https://github.com/ragsns/dockeronazure.git) installed **locally** either via a `git clone` command or by downloading a zip file from the remote repository.
 
 
 ## Samples and General Directions
@@ -42,6 +44,8 @@ Docker Getting Started Material at [https://docs.docker.com/get-started/](https:
 Kubernetes at [https://kubernetes.io/docs/tutorials/kubernetes-basics/](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
 
 Docker Swarm on Azure at [https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-swarm-mode-walkthrough](https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-swarm-mode-walkthrough)
+
+Docker Swarm on Azure at [https://blogs.msdn.microsoft.com/azureedu/2017/05/15/docker-swarm-on-azure/](https://blogs.msdn.microsoft.com/azureedu/2017/05/15/docker-swarm-on-azure/)
 
 Kubernetes on Azure at [https://blogs.msdn.microsoft.com/azureedu/2017/04/23/how-can-i-get-started-with-kubernetes-on-azure-container-services/](https://blogs.msdn.microsoft.com/azureedu/2017/04/23/how-can-i-get-started-with-kubernetes-on-azure-container-services/)
 
