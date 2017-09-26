@@ -55,6 +55,13 @@ Draft getting started at [https://github.com/Azure/draft](https://github.com/Azu
 
 Azure getting started at [https://azure.microsoft.com/en-us/get-started/](https://azure.microsoft.com/en-us/get-started/)
 
+### Other recommended resources
+
+My Colleague Jim Stuertevant's Docker workshop - [https://github.com/jsturtevant/docker-azure-fundamentals-workshop/](https://github.com/jsturtevant/docker-azure-fundamentals-workshop/tree/master/presentations)
+
+Free book on .NET Microservices Architecture at
+[https://www.microsoft.com/net/download/thank-you/microservices-architecture-ebook](https://www.microsoft.com/net/download/thank-you/microservices-architecture-ebook)
+
 
 ## Contact
 
