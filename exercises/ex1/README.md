@@ -55,7 +55,27 @@ az account list
 If you have multiple subscriptions, issue the following command to make sure you set the right subscription.
 
 ```
-az account set --subscription <correct id>
+az account set --subscription <correct-id>
+```
+
+You can verify that the right subscription is set with the following command
+
+```
+az account show
+```
+
+{
+  "environmentName": "AzureCloud",
+  "id": "id 2",
+  "isDefault": true,
+  "name": "rags@microsoft",
+  "state": "Enabled",
+  "tenantId": "tenant 2",
+  "user": {
+    "name": "rags@microsoft.com",
+    "type": "user"
+  }
+}
 ```
 
 ### Ensure that container instances are supported

@@ -12,7 +12,17 @@ Using an optimized configuration of popular open-source scheduling and orchestra
 
 We will look at Docker Swarm as an orchestrator in this exeercise and will subsequently look at Kubernetes in later exercises. **Please note that some of the regions don't support Docker Swarm in Swarm mode yet. They support Docker Swarm in legacy mode. To spin up clusters in Docker Swarm mode, Use Docker CE as the orchestrator**.
 
-Let's run the following command again
+### Services with Docker Swarm
+
+##### ssh into the Docker Swarm master
+
+ssh into the master of the Docker swarm cluster created earlier with the following command
+
+```
+ssh <ip-of-master>
+```
+
+Let's run the following command again to verify that the cluster is in good shape.
 
 ```
 docker node ls
@@ -27,8 +37,6 @@ i80wvdub8g47eecem8fqxx8kn    swarmm-agentpool-26830735000000  Ready   Active
 lx5ifv7o16ri19xjb189ig12d    swarmm-agentpool-26830735000004  Ready   Active        
 mg7sinoolwjkxmyxc6lc79wal    swarmm-agentpool-26830735000003  Ready   Active
 ```
-
-### Services with Docker Swarm
 
 #### Deploying a Service
 
