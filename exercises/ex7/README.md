@@ -134,7 +134,7 @@ Now run the following command to stand up the app, which builds the dockerized i
   http://listening-numbat.rags.tech to access your application
 ```
 
-Hit <ctrl-c>. Run the status command on the app as below. In this case it is `listening-numbat`.
+Hit `ctrl-c`. Run the status command on the app as below. In this case it is `listening-numbat`.
 
 ```
 helm status <application-name>
