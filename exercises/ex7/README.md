@@ -2,7 +2,7 @@
 
 ## Exercise 8: Draft
 
-**STOP**! Please ensure that you have met all the prereqisites as mentioned [earlier](../../README.md) and have created a Kubernetes cluster as outlined in the [previous exercise](../ex5/README.md) and have completed the exercise on [draft](../ex6/README.md).
+**STOP**! Please ensure that you have met all the prereqisites as mentioned [earlier](../../README.md) and have created a Kubernetes cluster as outlined in the [previous exercise](../ex5/README.md) and have completed the exercise on [Helm](../ex6/README.md).
 
 ### Draft
 
