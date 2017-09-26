@@ -44,7 +44,7 @@ az group create --name $RESOURCE_GROUP --location eastus
 
 ```
 
-Next create the Kubernetes cluster with the following command (**unique names for Resource Group, Cluster and DNS prefix might be required**).
+Next create the Kubernetes cluster with the following command (**unique names for Resource Group, Cluster and DNS prefix might be required**). **This may take a while**.
 
 ```
 az acs create --orchestrator-type=kubernetes --resource-group $RESOURCE_GROUP --name=$CLUSTER_NAME --dns-prefix=$DNS_PREFIX --generate-ssh-keys
