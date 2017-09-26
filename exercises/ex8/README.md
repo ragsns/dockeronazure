@@ -158,9 +158,9 @@ Run the following command again and you'll notice in the output that the applica
 az container show --ids $(az container list | grep id | awk {'print $2'} | sed 's/\"//' | sed 's/\"//' | sed 's/,//')
 ```
 
-#### Using the Azure Private Repository
+#### Using the Azure Container Registry
 
-So far, we've used the Docker public repository. And Run through the tutorial outlined in [https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-app](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-app) for an example of using the Azure private registry which could have been used in earlier examples as well.
+Run through the tutorial outlined in [https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-app](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-app) for an example of using the Azure Container Registry.
 
 #### Delete the Resource Group
 

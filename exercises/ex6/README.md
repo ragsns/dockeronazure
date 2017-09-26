@@ -134,10 +134,10 @@ Which will eventually generate an external IP as below.
 
 ```
 NAME                                      CLUSTER-IP   EXTERNAL-IP    PORT(S)                      AGE
-nginx2-ingress-nginx-ingress-controller   10.0.92.72   13.90.145.13   80:30626/TCP,443:30763/TCP   42d
+nginx2-ingress-nginx-ingress-controller   10.0.92.72   52.170.208.124  80:30626/TCP,443:30763/TCP   42d
 ```
 
-We will refer to this as <external-ip-of-ingress-controller>.
+We will refer to this as `external-ip-of-ingress-controller`.
 
 ### Summary and Next Steps
 
