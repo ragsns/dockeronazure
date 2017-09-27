@@ -6,7 +6,13 @@
 
 ### Draft
 
-Draft leverages `helm` and Kubernetes. Let's start by installing draft on the cluster as outlined in [https://github.com/Azure/draft/blob/master/docs/install.md](https://github.com/Azure/draft/blob/master/docs/install.md).
+Draft leverages `helm` and Kubernetes. The focus is on the app rather than infrastructure. 
+
+You can use Draft with any Docker image registry and any Kubernetes cluster, including locally. This exercise leverages the ACS Kubernetes cluster and Azure Container Registry (ACR) to create a live but secure developer pipeline.
+
+Finally, using Azure DNS you can expose that developer pipeline for others to see at a domain.
+
+Let's start by installing draft on the cluster as outlined in [https://github.com/Azure/draft/blob/master/docs/install.md](https://github.com/Azure/draft/blob/master/docs/install.md).
 
 
 ### Draft Samples
@@ -73,7 +79,8 @@ You'll use this password in the next step.
 
 #### Initialize draft
 
-Initialize `draft' using the following command.
+Initialize `draft` using the following command.
+
 ```
 draft init
 ```
@@ -163,7 +170,7 @@ Again, invoke the command
 draft up
 ```
 
-Again, run the command substituting the public IP of the nginx ingress.
+Again, run the command substituting the application name and public IP of the nginx ingress.
 
 ```
 curl --header Host:listening-numbat.rags.tech 52.170.208.124
@@ -191,7 +198,7 @@ REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION
 
 #### Rollback
 
-We are going to rollback to the previous version, jjust because we can using the following command
+We are going to rollback to the previous version, using the following command
 
 ```
 helm rollback listening-numbat 1
@@ -230,6 +237,16 @@ REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION
 3       	Tue Sep 26 14:40:41 2017	DEPLOYED  	listening-numbat-0.1.0	Rollback to 1
 ```
 
+#### Setting up a top level domain (optional)
+
+You could setup a top level DNS domain as outlined in [https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up).
+
+Based on DNS, the application end point can be accessed directly as below.
+
+```
+curl listening-numbat.rags.tech
+```
+
 ### Summary and Next Steps
 
 We started with some simple Docker commands in earlier exercises and used Docker compose but they still don't make it easy to scale and self heal.
@@ -242,4 +259,4 @@ Helm made it a lot easier to install kubernetes apps on the cluster.
 
 Draft takes it further, leverages Helm (and Kubernetes) to provide a higher level of abstraction as an application.
 
-In the [Next Exercise](../ex8/README.md) we pivot to a different way of spinning up containers using Azure Container Instances.
+In the [Next Exercise](../ex8/README.md) we pivot to an different way and much simpler way of spinning up containers using Azure Container Instances.
