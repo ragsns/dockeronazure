@@ -16,7 +16,7 @@ Needless to say you'll need a laptop! Any OS is fine (Mac is recommended and tha
 
 - **Prerequisite 6:** A Docker Hub account from [https://hub.docker.com/](https://hub.docker.com/). This is **optional** if you're OK skipping portions of a few exercises.
 
-- **Prerequiste 7** The labs from [https://github.com/ragsns/dockeronazure.git](https://github.com/ragsns/dockeronazure.git) installed **locally** either via a `git clone` command or by downloading a zip file from the remote repository.
+- **Prerequisite 7:** The labs from [https://github.com/ragsns/dockeronazure.git](https://github.com/ragsns/dockeronazure.git) installed **locally** either via a `git clone` command or by downloading a zip file from the remote repository.
 
 
 ## Samples and General Directions
