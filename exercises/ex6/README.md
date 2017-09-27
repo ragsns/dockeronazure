@@ -6,6 +6,9 @@
 
 ### Helm
 
+Helm is a tool that streamlines installing and managing Kubernetes applications, like the apt/yum/homebrew for Kubernetes. Draft, which will be covered in a subsequent exercise works with pre-provided charts to deploy the apps. via Helm.
+
+
 Install Helm as outlined in [https://github.com/kubernetes/helm#install](https://github.com/kubernetes/helm#install). You can use the following commands
 
 ```
