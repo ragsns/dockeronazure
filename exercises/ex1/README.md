@@ -63,7 +63,9 @@ You can verify that the right subscription is set with the following command
 ```
 az account show
 ```
+which should yield an output that looks something like below.
 
+```
 {
   "environmentName": "AzureCloud",
   "id": "id 2",
