@@ -158,9 +158,25 @@ Run the following command again and you'll notice in the output that the applica
 az container show --ids $(az container list | grep id | awk {'print $2'} | sed 's/\"//' | sed 's/\"//' | sed 's/,//')
 ```
 
+#### Container logs
+
+You can get the logs via the following command
+
+```
+az container logs --ids $(az container list | grep id | awk {'print $2'} | sed 's/\"//' | sed 's/\"//' | sed 's/,//')
+```
+
 #### Using the Azure Container Registry
 
 Run through the tutorial outlined in [https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-app](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-app) for an example of using the Azure Container Registry.
+
+#### Delete the container
+
+Delete the running container with the following command
+
+```
+az container delete --ids $(az container list | grep id | awk {'print $2'} | sed 's/\"//' | sed 's/\"//' | sed 's/,//')
+```
 
 #### Delete the Resource Group
 
