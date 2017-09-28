@@ -27,7 +27,8 @@ Verify that you're logged into Azure and set the right subscription with the fol
 az account show
 ```
 
-We create the cluster using the following commands. You could do this from the Azure portal as well.
+We create the cluster using the following commands. You could do this from the Azure portal as well. (**unique names (USE INITIALS for Resource Group, Cluster Name and DNS prefix might be required**). 
+
 
 ```
 export DNS_PREFIX=kub07
@@ -44,8 +45,7 @@ az group create --name $RESOURCE_GROUP --location eastus
 
 ```
 
-Next create the Kubernetes cluster with the following command (**unique names for Resource Group, Cluster and DNS prefix might be required**). **This may take a while**.
-
+Next create the Kubernetes cluster with the following command 
 ```
 az acs create --orchestrator-type=kubernetes --resource-group $RESOURCE_GROUP --name=$CLUSTER_NAME --dns-prefix=$DNS_PREFIX --generate-ssh-keys
 ```

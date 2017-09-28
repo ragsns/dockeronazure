@@ -148,6 +148,12 @@ HOSTNAME = 9a0e8506e8e6
 What happened here? To understand that, let's try the following command.
 
 ```
+docker service ps spring-boot
+```
+
+which should yield an output that looks something like below.
+
+```
 ID            NAME               IMAGE                      NODE                             DESIRED STATE  CURRENT STATE           ERROR  PORTS
 8t4cdif6gfwu  spring-boot.1      ragsns/spring-boot:latest  swarmm-agentpool-26830735000000  Running        Running 3 minutes ago          
 oj3exne6eo5j   \_ spring-boot.1  ragsns/spring-boot:latest  swarmm-agentpool-26830735000000  Shutdown       Complete 3 minutes ago         
