@@ -75,7 +75,7 @@ docker ps -a
 
 Should yield an output that looks something like below. It shows the image running inside the container orchestarted by Docker Swarm on the cluster.
 
-
+You can logout of the shell now by typing `ctrl-d`.
 
 ```
 CONTAINER ID        IMAGE                                                                           COMMAND                  CREATED             STATUS              PORTS               NAMES
