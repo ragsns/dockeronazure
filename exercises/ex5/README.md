@@ -291,10 +291,10 @@ You can get the logs of the running application using
 kubectl logs $POD_NAME
 ```
 
-Let's login to the Kubernetes master using the following command substituting the region name if required.
+If necessary, you can login to the Kubernetes master using the following command substituting the region name if required.
 
 ```
-ssh azureuser@$(echo $DNS_NAME)mgmt.eastus.cloudapp.azure.com
+ssh azureuser@$(echo $DNS_PREFIX)mgmt.eastus.cloudapp.azure.com
 ```
 
 From the local laptop, we expose the deployment with the following command.
@@ -436,13 +436,19 @@ Hello World!
 ```
 
 
-### Delete the Deployment
+### Clean up
 
 
 To delete the deployment, run the following command.
 
 ```
 kubectl delete deploy/spring-boot
+```
+
+To delete the service, run the following command.
+
+```
+kubectl delete svc spring-boot
 ```
 
 ### Summary and Next Steps
