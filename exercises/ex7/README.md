@@ -14,7 +14,20 @@ Finally, using Azure DNS you can expose that developer pipeline for others to se
 
 Let's start by installing draft on the cluster as outlined in [https://github.com/Azure/draft/blob/master/docs/install.md](https://github.com/Azure/draft/blob/master/docs/install.md).
 
+### Verify the version
 
+Verify that the version is later than 0.8.0 by running the following command.
+
+```
+draft version
+```
+
+Which should produce an output that looks something like below.
+
+```
+Client: &version.Version{SemVer:"v0.8.0", GitCommit:"6edb87f6e85d019fc3f708d31ca76270b765a9b0", GitTreeState:"clean"}
+Server: &version.Version{SemVer:"v0.8.0", GitCommit:"6edb87f6e85d019fc3f708d31ca76270b765a9b0", GitTreeState:"clean"}
+```
 ### Draft Samples
 
 Git clone draft repository which includes the samples using the following command.
@@ -93,8 +106,6 @@ In order to install Draft, we need a bit more information...
 1. Enter your Docker registry URL (e.g. docker.io, quay.io, myregistry.azurecr.io): ragsns.azurecr.io
 2. Enter your username: ragsns
 3. Enter your password: 
-4. Enter your org where Draft will push images [ragsns]: 
-5. Enter your top-level domain for ingress (e.g. draft.example.com): rags.tech
 Draft has been installed into your Kubernetes Cluster.
 Happy Sailing!
 ```
@@ -114,7 +125,8 @@ draft create
 which will generate an output that looks like below
 
 ```
---> Node.js app detected
+draft create
+--> Draft detected the primary language as JavaScript with 63.847430% certainty.
 --> Ready to sail
 ```
 
@@ -130,32 +142,51 @@ Edit `index.js` and change the line with the `Hello World` entry to look somethi
   response.end("Hello World v1.0, I am Node.js!");
 ```
 
-Now run the following command to stand up the app, which builds the dockerized image, pushes to the Docker repository and stands it up as a Helm app. If everything goes well, you'll see an output that looks something like below.
+Now run the following command to stand up the app, which builds the dockerized image, pushes to the Docker repository and stands it up as a Helm app. 
 
 ```
---> Deploying to Kubernetes
-    Release "listening-numbat" does not exist. Installing it now.
---> Status: DEPLOYED
---> Notes:
-     
-  http://listening-numbat.rags.tech to access your application
+draft up
 ```
 
-Hit `ctrl-c`. Run the status command on the app as below. In this case it is `listening-numbat`.
+If everything goes well, you'll see an output that builds the Docker image and publishes it with an output that will end as below.
+
+```
+SUCCESS ⚓  (5.3008s)
+olfactory-bronco: Build ID: 01BXCPYB3036FP1EBSFHEYNBJM
+```
+
+Hit `ctrl-c`. Run the status command on the app as below. In this case it is `olfactory-bronco`.
 
 ```
 helm status <application-name>
 ```
 
-Now run the following command substituting the external IP of the ingress controller that was referred to as `external-ip-of-ingress-controller` in the previous exercise as below.
+### Connect to the application
+
+Run the following command
 
 ```
-curl --header Host:listening-numbat.rags.tech 52.170.208.124 # use <external-ip-of-ingress-controller>
+draft connect
 ```
+
 This will yield an output something like below.
 
 ```
-Hello World v1.0, I am Node.js!
+Connecting to your app...SUCCESS...
+Connect to your app on localhost:56512
+Starting log streaming...
+
+> example-nodejs@0.0.0 start /usr/src/app
+> node index.js
+
+server is listening on 8080
+
+```
+
+You can connect to the application based on the output of the command above using the approriate port on `localhost`. In this case it is `56512`.
+
+```
+curl localhost:56512
 ```
 
 Change the line in `index.js` to look like below.
@@ -169,14 +200,18 @@ Again, invoke the command
 ```
 draft up
 ```
-
-Again, run the command substituting the application name and public IP of the nginx ingress.
+ 
+Followed by the command.
 
 ```
-curl --header Host:listening-numbat.rags.tech 52.170.208.124
+draft connect
 ```
 
-Note the output from v2 of the application as below.
+Note the output from v2 of the application and run the following command
+
+```
+curl localhost:<port-from-output-from-draft-connect>
+```
 
 ```
 Hello World v2.0, I am Node.js!
@@ -241,10 +276,62 @@ REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION
 
 You could setup a top level DNS domain as outlined in [https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up).
 
+### Setup top level domain via draft
+
+Run the following command to delete draft artifacts in helm as below.
+
+```
+helm del --purge draft
+```
+### Setup the Ingress
+
+Run the following command
+
+```
+draft init --ingress-enabled
+```
+
+and provide the top level domain, in this case `rags.tech`.
+
+You can get the applications running using the command below.
+
+```
+helm list
+```
+Now get the status of the running application as below.
+
+```
+helm status <application-name>
+```
+
+Which should 
+LAST DEPLOYED: Thu Oct 26 23:02:43 2017
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Service
+NAME                         CLUSTER-IP   EXTERNAL-IP  PORT(S)   AGE
+olfactory-bronco-javascript  10.0.116.39  <none>       8080/TCP  15m
+
+==> v1beta1/Deployment
+NAME                         DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+olfactory-bronco-javascript  2        2        2           2          15m
+
+==> v1beta1/Ingress
+NAME                         HOSTS                       ADDRESS  PORTS  AGE
+olfactory-bronco-javascript  olfactory-bronco.rags.tech  80       15m
+
+
+NOTES:
+
+  http://olfactory-bronco.rags.tech to access your application
+```
+
 Based on DNS, the application end point can be accessed directly as below.
 
 ```
-curl listening-numbat.rags.tech
+curl http://olfactory-bronco.rags.tech
 ```
 
 ### Summary and Next Steps
