@@ -14,7 +14,9 @@ cd <path-to-hol-folder>/dockeronazure/exercises/ex1
 
 ### Login to Azure
 
-Login to Azure via the CLI. Instructions are at [https://docs.microsoft.com/en-us/azure/xplat-cli-connect](https://docs.microsoft.com/en-us/azure/xplat-cli-connect).
+Install the `az` CLI from [https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest).
+
+Login to Azure via the CLI. Instructions are at [http://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli?view=azure-cli-latestllu](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli?view=azure-cli-latest).
 
 After successful login issue the following command
 
