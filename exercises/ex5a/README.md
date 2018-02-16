@@ -1,6 +1,6 @@
 # Docker to Helm Hands-On Labs
 
-## Exercise 5: Kubernetes
+## Exercise 5a: Kubernetes with Azure Container Services (ACS)
 
 **STOP**! Please ensure that you have met all the prereqisites as mentioned [earlier](../../README.md).
 

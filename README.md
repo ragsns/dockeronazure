@@ -32,7 +32,8 @@ It is recommended that you run through these exercises sequentially since they a
 - Exercise 2: [Gentle Intro to Docker](exercises/ex2) - Skip this if you're already familiar with Docker
 - Exercise 3: [Docker Compose](exercises/ex3)
 - Exercise 4: [Docker Swarm](exercises/ex4)
-- Exercise 5: [Kubernetes or K8S](exercises/ex5)
+- Exercise 5a: [Kubernetes or K8S with ACS](exercises/ex5a) [***You can try both 5a and 5b or one of them***]
+- Exercise 5b: [Kubernetes or K8S with AKS](exercises/ex5b) [***You can try both 5a and 5b or one of them***]
 - Exercise 6: [Helm](exercises/ex6) (optional)
 - Exercise 7: [Draft](exercises/ex7) (optional)
 - Exercise 8: [Container Instances](exercises/ex8)
