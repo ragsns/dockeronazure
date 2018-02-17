@@ -272,18 +272,16 @@ REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION
 3       	Tue Sep 26 14:40:41 2017	DEPLOYED  	listening-numbat-0.1.0	Rollback to 1
 ```
 
-#### Setting up a top level domain (optional)
+### Setting up a top level domain (optional)
 
 You could setup a top level DNS domain as outlined in [https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up).
-
-### Setup top level domain via draft
 
 Run the following command to delete draft artifacts in helm as below.
 
 ```
 helm del --purge draft
 ```
-### Setup the Ingress
+#### Setup the Ingress
 
 Run the following command
 
