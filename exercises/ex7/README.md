@@ -113,7 +113,7 @@ Happy Sailing!
 Let's look at the nodejs example by traversing into that sub-directory.
 
 ```
-cd draft/examples/nodejs
+cd draft/examples/example-nodejs
 ```
 
 and invoking the following command
@@ -155,7 +155,7 @@ SUCCESS ⚓  (5.3008s)
 olfactory-bronco: Build ID: 01BXCPYB3036FP1EBSFHEYNBJM
 ```
 
-Hit `ctrl-c`. Run the status command on the app as below. In this case it is `olfactory-bronco`.
+Run the status command on the app as below. In this case it is `olfactory-bronco`.
 
 ```
 helm status <application-name>
@@ -291,7 +291,7 @@ Run the following command
 draft init --ingress-enabled
 ```
 
-and provide the top level domain, in this case `rags.tech`.
+and provide the values as before with the top level domain, in this case `rags.tech`.
 
 You can get the applications running using the command below.
 
@@ -304,7 +304,9 @@ Now get the status of the running application as below.
 helm status <application-name>
 ```
 
-Which should 
+Which should yield an output that looks something like below.
+
+``` 
 LAST DEPLOYED: Thu Oct 26 23:02:43 2017
 NAMESPACE: default
 STATUS: DEPLOYED
