@@ -20,19 +20,24 @@ Verify that you're logged into Azure and set the right subscription with the fol
 az account show
 ```
 
-We create the cluster using the following commands. You could do this from the Azure portal as well. (**unique names (USE INITIALS if required**). 
-
+We create the cluster using the following commands. You could do this from the Azure portal as well. (for **unique names USE INITIALS if required**). We will use the same name for the resource group just as a convenience.
 
 ```
 export UNIQUE_NAME=ragsAKS
 ```
 
-You may have make these names unique by tagging your name if the cluster creation fails later
+You may have make these names unique by tagging your name if the cluster creation fails.
+
+First create a resource group with the following command.
+
+```
+az group create --name $UNIQUE_NAME --location eastus
+```
 
 Let's start with creating a single node AKS Cluster,
 
 ```
-az aks create --resource-group $UNIQUE_NAME --name UNIQUE_NAME --node-count 1 --generate-ssh-keys 
+az aks create --resource-group $UNIQUE_NAME --name $UNIQUE_NAME --node-count 1 --generate-ssh-keys
 
 ```
 
@@ -52,7 +57,7 @@ az aks get-credentials --resource-group=$UNIQUE_NAME --name=$UNIQUE_NAME
 
 This step downloads credentials and configures the Kubernetes CLI to use them.
 
-Ensure that the context is set appropriately with the following command.
+Ensure that the context is set to the newly created cluster with the following command
 
 ```
 kubectl config use-context $UNIQUE_NAME
@@ -224,7 +229,7 @@ deployment "spring-boot" successfully rolled out
 Running the command below verifies that the service was updated
 
 ```
-curl $EXTERNAL_IP:8080/exit
+curl $EXTERNAL_IP:8080
 
 ```
 
@@ -245,7 +250,7 @@ kubectl rollout undo deployments/spring-boot
 Running the following command again
 
 ```
-curl $EXTERNAL_IP:8080/exit
+curl $EXTERNAL_IP:8080
 ```
 
 which yields the following output indicating the service was rolled back.
