@@ -54,12 +54,23 @@ You'll get an output that looks something like below.
 
 ```
 A new storage account 'ragsns180830' will be created in resource group 'draft'.
+```
 
 Create a new service principal and assign access:
+
+```
   az ad sp create-for-rbac --scopes /subscriptions/a328d458-73b5-4662-b38d-9d8a16d0fb61/resourceGroups/draft/providers/Microsoft.ContainerRegistry/registries/ragsns --role Owner --password <password>
+```
 
 Use an existing service principal and assign access:
+
+```
   az role assignment create --scope /subscriptions/a328d458-73b5-4662-b38d-9d8a16d0fb61/resourceGroups/draft/providers/Microsoft.ContainerRegistry/registries/ragsns --role Owner --assignee <app-id>
+```
+
+You should see an output that looks something like below.
+
+```
 {
   "adminUserEnabled": true,
   "creationDate": "2017-09-26T18:08:53.801270+00:00",
