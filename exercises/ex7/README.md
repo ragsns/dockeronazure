@@ -10,8 +10,6 @@ Draft leverages `helm` and Kubernetes. The focus is on the app rather than infra
 
 You can use Draft with any Docker image registry and any Kubernetes cluster, including locally. This exercise leverages the ACS Kubernetes cluster and Azure Container Registry (ACR) to create a live but secure developer pipeline.
 
-Finally, using Azure DNS you can expose that developer pipeline for others to see at a domain.
-
 Let's start by installing draft on the cluster as outlined in [https://github.com/Azure/draft/blob/master/docs/install.md](https://github.com/Azure/draft/blob/master/docs/install.md).
 
 ### Verify the version
@@ -25,8 +23,7 @@ draft version
 Which should produce an output that looks something like below.
 
 ```
-Client: &version.Version{SemVer:"v0.8.0", GitCommit:"6edb87f6e85d019fc3f708d31ca76270b765a9b0", GitTreeState:"clean"}
-Server: &version.Version{SemVer:"v0.8.0", GitCommit:"6edb87f6e85d019fc3f708d31ca76270b765a9b0", GitTreeState:"clean"}
+&version.Version{SemVer:"v0.15.0", GitCommit:"9d73889a1318a435d126bc5df846610d30cfbe7f", GitTreeState:"clean"}
 ```
 ### Draft Samples
 
@@ -108,23 +105,39 @@ Initialize `draft` using the following command.
 ```
 draft init
 ```
-
-and provide the values substituting the credentials for your unique repository, and a top-level domain (don't worry if you don't have a domain. Any value is fine here) including the password you just obtained.
+You should see an output that looks something like below.
 
 ```
-In order to install Draft, we need a bit more information...
-
-1. Enter your Docker registry URL (e.g. docker.io, quay.io, myregistry.azurecr.io): ragsns.azurecr.io
-2. Enter your username: ragsns
-3. Enter your password: 
-Draft has been installed into your Kubernetes Cluster.
+Installing default plugins...
+Installation of default plugins complete
+Installing default pack repositories...
+Installation of default pack repositories complete
+$DRAFT_HOME has been configured at /Users/raghavansrinivas/.draft.
 Happy Sailing!
 ```
+
+#### Configure Draft to push to and deploy from ACR
+
+Set the Draft configuration registry value after replacing the `acrName` in the following command.
+
+```
+draft config set registry <acrName>.azurecr.io
+```
+
+Login to ACR with the following command substituting `acrName`. 
+
+```
+az acr login --name <acrName>
+```
+
+This will create a trust between AKS and ACR. As a result, no passwords or secrets are required to push to or pull from the ACR registry. Authentication happens at the Azure Resource Manager level, using Azure Active Directory.
+
+#### Pushing an example
 
 Let's look at the nodejs example by traversing into that sub-directory.
 
 ```
-cd draft/examples/example-nodejs
+cd examples/example-nodejs
 ```
 
 and invoking the following command
@@ -137,11 +150,11 @@ which will generate an output that looks like below
 
 ```
 draft create
---> Draft detected the primary language as JavaScript with 63.847430% certainty.
+--> Draft detected JavaScript (58.280255%)
 --> Ready to sail
 ```
 
-Run the following command to see what it auto-generated based on the language it detected.
+Run the following command to see that it auto-generated a `charts` sub-directory among other things that contains the chart used to deploy the application, based on the language it detected.
 
 ```
 ls -l
@@ -162,14 +175,17 @@ draft up
 If everything goes well, you'll see an output that builds the Docker image and publishes it with an output that will end as below.
 
 ```
-SUCCESS ⚓  (5.3008s)
-olfactory-bronco: Build ID: 01BXCPYB3036FP1EBSFHEYNBJM
+Draft Up Started: 'example-nodejs': 01CNQG7G8E1CQJKS5JJ7T7S1RA
+example-nodejs: Building Docker Image: SUCCESS ⚓  (85.0426s)
+example-nodejs: Pushing Docker Image: SUCCESS ⚓  (593.3160s)
+example-nodejs: Releasing Application: SUCCESS ⚓  (3.9282s)
+Inspect the logs with `draft logs 01CNQG7G8E1CQJKS5JJ7T7S1RA`
 ```
 
-Run the status command on the app as below. In this case it is `olfactory-bronco`.
+Run the status command on the app as below. In this case it is `example-nodejs`.
 
 ```
-helm status <application-name>
+helm status example-nodejs
 ```
 
 ### Connect to the application
@@ -183,21 +199,19 @@ draft connect
 This will yield an output something like below.
 
 ```
-Connecting to your app...SUCCESS...
-Connect to your app on localhost:56512
-Starting log streaming...
-
-> example-nodejs@0.0.0 start /usr/src/app
-> node index.js
-
-server is listening on 8080
-
+Connect to javascript:8080 on localhost:51592
+[javascript]: 
+[javascript]: > example-nodejs@0.0.0 start /usr/src/app
+[javascript]: > node index.js
+[javascript]: 
+[javascript]: server is listening on 8080
+[javascript]: /
 ```
 
-You can connect to the application based on the output of the command above using the approriate port on `localhost`. In this case it is `56512`.
+From another terminal window, you can connect to the application based on the output of the command above using the approriate port on `localhost`. In this case it is `51592`.
 
 ```
-curl localhost:56512
+curl localhost:51592
 ```
 
 Change the line in `index.js` to look like below.
@@ -218,7 +232,7 @@ Followed by the command.
 draft connect
 ```
 
-Note the output from v2 of the application and run the following command
+Note the output from v2 of the application and run the following command from another terminal window
 
 ```
 curl localhost:<port-from-output-from-draft-connect>
@@ -231,15 +245,15 @@ Hello World v2.0, I am Node.js!
 Let's look at the application history with the following command
 
 ```
-helm history listening-numbat
+helm history example-nodejs
 ```
 
 Which should yield an output that looks something like below.
 
 ```
-REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION     
-1       	Tue Sep 26 14:36:09 2017	SUPERSEDED	listening-numbat-0.1.0	Install complete
-2       	Tue Sep 26 14:38:08 2017	DEPLOYED  	listening-numbat-0.1.0	Upgrade complete
+REVISION	UPDATED                 	STATUS    	CHART            	DESCRIPTION     
+1       	Fri Aug 24 23:20:54 2018	SUPERSEDED	javascript-v0.1.0	Install complete
+2       	Fri Aug 24 23:22:10 2018	DEPLOYED  	javascript-v0.1.0	Upgrade complete
 ```
 
 #### Rollback
@@ -247,7 +261,7 @@ REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION
 We are going to rollback to the previous version, using the following command
 
 ```
-helm rollback listening-numbat 1
+helm rollback example-nodejs 1
 ```
 
 You should see an output that looks something like below.
@@ -256,10 +270,16 @@ You should see an output that looks something like below.
 Rollback was a success! Happy Helming!
 ```
 
-If you run the following command again
+If you connect to the application again with the following command.
 
 ```
-curl --header Host:listening-numbat.rags.tech 52.170.208.124
+draft connect
+```
+
+and `curl` the appropriate port
+
+```
+curl localhost:52414
 ```
 
 You'll see the output from the rolled back version as below.
@@ -271,78 +291,16 @@ Hello World v1.0, I am Node.js!
 Rrerunning the following command
 
 ```
-helm history listening-numbat
+helm history example-nodejs
 ```
 
 Will produce an output confirming it
 
 ```                            
-REVISION	UPDATED                 	STATUS    	CHART                 	DESCRIPTION     
-1       	Tue Sep 26 14:36:09 2017	SUPERSEDED	listening-numbat-0.1.0	Install complete
-2       	Tue Sep 26 14:38:08 2017	SUPERSEDED	listening-numbat-0.1.0	Upgrade complete
-3       	Tue Sep 26 14:40:41 2017	DEPLOYED  	listening-numbat-0.1.0	Rollback to 1
-```
-
-### Setting up a top level domain (optional)
-
-You could setup a top level DNS domain as outlined in [https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-draft-up).
-
-Run the following command to delete draft artifacts in helm as below.
-
-```
-helm del --purge draft
-```
-#### Setup the Ingress
-
-Run the following command
-
-```
-draft init --ingress-enabled
-```
-
-and provide the values as before with the top level domain, in this case `rags.tech`.
-
-You can get the applications running using the command below.
-
-```
-helm list
-```
-Now get the status of the running application as below.
-
-```
-helm status <application-name>
-```
-
-Which should yield an output that looks something like below.
-
-``` 
-LAST DEPLOYED: Thu Oct 26 23:02:43 2017
-NAMESPACE: default
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Service
-NAME                         CLUSTER-IP   EXTERNAL-IP  PORT(S)   AGE
-olfactory-bronco-javascript  10.0.116.39  <none>       8080/TCP  15m
-
-==> v1beta1/Deployment
-NAME                         DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-olfactory-bronco-javascript  2        2        2           2          15m
-
-==> v1beta1/Ingress
-NAME                         HOSTS                       ADDRESS  PORTS  AGE
-olfactory-bronco-javascript  olfactory-bronco.rags.tech  80       15m
-
-
-NOTES:
-
-  http://olfactory-bronco.rags.tech to access your application
-```
-
-Based on DNS, the application end point can be accessed directly as below.
-
-```
-curl http://olfactory-bronco.rags.tech
+REVISION	UPDATED                 	STATUS    	CHART            	DESCRIPTION     
+1       	Fri Aug 24 23:38:57 2018	SUPERSEDED	javascript-v0.1.0	Install complete
+2       	Fri Aug 24 23:39:45 2018	SUPERSEDED	javascript-v0.1.0	Upgrade complete
+3       	Fri Aug 24 23:41:17 2018	DEPLOYED  	javascript-v0.1.0	Rollback to 1
 ```
 
 ### Summary and Next Steps
@@ -351,7 +309,7 @@ We started with some simple Docker commands in earlier exercises and used Docker
 
 Using Docker swarm in swarm mode we're able to meet some of the tenets of an application such as self-healing, scaling, rolling upgrades and so on.
 
-We used Kubernetes as an orchestrator to essentially accomplish the same things we did with Dockder Swarm.
+We used Kubernetes as an orchestrator to essentially accomplish the same things we did with Docker Swarm.
 
 Helm made it a lot easier to install kubernetes apps on the cluster.
 
