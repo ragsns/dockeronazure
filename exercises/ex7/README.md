@@ -303,8 +303,43 @@ REVISION	UPDATED                 	STATUS    	CHART            	DESCRIPTION
 3       	Fri Aug 24 23:41:17 2018	DEPLOYED  	javascript-v0.1.0	Rollback to 1
 ```
 
-### Summary and Next Steps
+#### Adding a load balancer
 
+The Helm charts for deployment are by default configured to generate an IP address. We will modify it to configure a Load Balancer instead with the following command.
+
+```
+sed -i '' 's/ClusterIP/LoadBalancer/g' charts/javascript/values.yaml
+```
+
+Deploy the application with the following command
+
+```
+draft up
+```
+
+Run the following command
+
+```
+kubectl get service --watch
+```
+
+Which will eventually generate an external IP as below.
+
+```
+NAME                        TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)          AGE
+
+example-nodejs-javascript   LoadBalancer   10.0.253.192   <pending>        8080:31541/TCP   13h
+example-nodejs-javascript   LoadBalancer   10.0.253.192   40.76.43.152     8080:31541/TCP   13h
+```
+
+You can access the application via the external IP address as below, making sure you substitute the appropriate address.
+
+```
+curl <external-ip>:8080
+```
+
+
+### Summary and Next Steps
 We started with some simple Docker commands in earlier exercises and used Docker compose but they still don't make it easy to scale and self heal.
 
 Using Docker swarm in swarm mode we're able to meet some of the tenets of an application such as self-healing, scaling, rolling upgrades and so on.
