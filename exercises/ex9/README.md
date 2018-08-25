@@ -2,7 +2,7 @@
 
 ## Exercise 9: A Complete Multi-Container Application
 
-**STOP**! Please ensure that you have met all the prereqisites as mentioned [earlier](../../README.md) and you have access to a Kubernetes Cluster as outlined in [exercise 5a] (../ex5a/README.md) ***or*** [exercise 5b] (../ex5b/README.md).
+**STOP**! Please ensure that you have met all the prereqisites as mentioned [earlier](../../README.md) and you have access to a Kubernetes Cluster as outlined in [exercise 5a](../ex5a/README.md) ***or*** [exercise 5b](../ex5b/README.md).
 
 ### Set context to the previously created Kubernetes Cluster
 
