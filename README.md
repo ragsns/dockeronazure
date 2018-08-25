@@ -37,6 +37,7 @@ It is recommended that you run through these exercises sequentially since they a
 - Exercise 6: [Helm](exercises/ex6) (optional)
 - Exercise 7: [Draft](exercises/ex7) (optional)
 - Exercise 8: [Container Instances](exercises/ex8)
+- Exercise 9: [A Complete Multi-container application] (exercises/ex9)
 
 ## More Resources
 
