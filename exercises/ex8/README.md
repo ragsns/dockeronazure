@@ -188,6 +188,6 @@ az group delete --name myaciGroup
 
 ### Summary and Next Steps
 
-We explored Docker, many of the frameworks, including Docker Swarm and Kubernetes. Although Kubernetes is powerful we realized it still had an infrastructure feel to it. Finally, we made a full circle to Azure Container Instances which is probably the simplest way of spinning up a container on Azure.
+We explored Docker, many of the frameworks, including Docker Swarm and Kubernetes. Although Kubernetes is powerful we realized it still had an infrastructure feel to it. Helm and Draft provided a more application centric viewpoint. Finally, we made a full circle to Azure Container Instances which is probably the simplest way of spinning up a container on Azure.
 
-Congrats, you're now a Docker guru on Azure :-).
+In the [Next Exercise](../ex9/README.md) we create a complete application using concepts we've learned so far.
