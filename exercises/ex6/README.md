@@ -39,6 +39,15 @@ tiller-deploy-3019006398-2656f                                1/1       Running 
 
 Helm uses the concepts of charts for deployment of the Helm packages. Think of Helm as the `apt-get` for Kubernetes.
 
+#### Setup for RBAC
+
+Setup for RBAC on the cluster using the following commands
+
+```
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+```
 
 #### Installing a Helm application
 
