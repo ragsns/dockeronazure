@@ -36,6 +36,8 @@ It's a `go` application that uses MySQL as the backing store.
 
 ### Create the RBAC workaround
 
+If you did not do this earlier in the ```helm``` exercise, do the following
+
 ```
 kubectl create serviceaccount --namespace kube-system tiller
 ```
@@ -44,15 +46,46 @@ kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 ```
 
+```
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+```
 
+### Setup for MySQL to use Azure Files
 
+#### Create an Azure Storage account name
+
+We will create a storage account inside the resource group that's running the cluster by lower casing ``UNIQUE_NAME``. Recreate with a different unique name in case creaion of the storage account fails.
+
+```
+export RG_NAME=$(az group list --output table | grep $UNIQUE_NAME\_$UNIQUE_NAME | awk '{print $1}')
+export SA_NAME=$(echo $UNIQUE_NAME | awk '{print tolower($0)}') && az storage account create --resource-group $RG_NAME --name $SA_NAME --location eastus --sku Standard_LRS && echo $SA_NAME storage account created
+```
+If successful you should see an output indicating the successful output of the storage account creation followed by a line that looks something like below.
+
+```
+ragsnsaks1111 storage account created
+```
+
+#### Create a StorageClass for Azure files
+
+Next we create a ```StorageClass``` for Azure files that we will use below when installing ```MySQL``` with the following command.
+
+```
+cat StorageClass.yaml | sed 's/storageAccount: .*/storageAccount: '$SA_NAME'/g' | kubectl create -f -
+```
+
+You should see an output that indicates successful creation as below.
+
+```
+storageclass.storage.k8s.io/azurefile created
+```
 
 ### Install MySQL
 
-Install ```MySQL``` with the following command. You certainly want to change the password in a production scenario.
+Now, we're ready to install MySQL on Azure files via ```Helm```. Install ```MySQL``` with the following command. You certainly want to change the password in a production scenario.
 
 ```
-helm install --name mysql --set mysqlRootPassword=changeme stable/mysql
+helm install --name mysql --set mysqlRootPassword=changeme --set persistence.accessMode=ReadWriteMany --set persistence.storageClass=azurefile stable/mysql
 ```
 
 You should see an output that looks something like below confirmation that ```MySQL``` installed successfully.
@@ -103,6 +136,20 @@ To connect to your database:
     $ mysql -h mysql-mysql -p
 ```
 
+#### Verify that MySQL is up and running
+
+Run the following command to make sure that ```MySQL``` is up and running
+
+```
+helm status mysql | grep -i -A 1 status
+```
+
+You should see an output that looks like something below and should indicate it's running.
+
+```
+NAME                          READY  STATUS   RESTARTS  AGE
+mysql-mysql-6ff5885dc6-b6q9n  1/1    Running  0         9m38s
+```
 #### Update the MySQL schema
 
 We'll follow the steps outlined in the output with some modifications as below. Let's start by running an ubuntu pod as below.
@@ -322,12 +369,63 @@ gowebapp   10.0.82.133   52.170.192.130   80:31559/TCP   4m
 ```
 
 Once the external IP (`52.170.192.130`) is available, you can <ctrl-c> and access the application via that IP.
- 
-### Cleanup
 
-Issue the following command to create the artifacts we created in this exercise.
+### Create a Static IP (optional)
+
+Create a static IP with the following commands.
 
 ```
+export IP_NAME=$(echo $UNIQUE_NAME | awk '{print tolower($0)}')IP
+az network public-ip create -g $RG_NAME -n $IP_NAME --dns-name $SA_NAME --allocation-method Static
+```
+
+Get the static public IP created with the following command
+
+```
+export LB_IP=$(az network public-ip show -g $RG_NAME -n $IP_NAME --query ipAddress --output tsv) && echo $LB_IP
+```
+
+You should see an output that looks something like below which ic the static IP address we will assign to the LoadBalancer.
+
+```
+40.121.178.6
+```
+
+Let's go ahead and temporarily delete the service with the following command that we will recreate in a moment with the new LoadBalancer IP.
+
+```
+kubectl delete service/gowebapp
+```
+
+We create the service again with the Load Balancer IP assigned to the static IP that we created with the following command
+
+```
+cat gowebapp-static.yaml | sed 's/loadBalancerIP: .*/loadBalancerIP: '$LB_IP'/g' | kubectl create -f -
+service/gowebapp created
+```
+
+Now, make sure everything is successful by watching the service with the following command
+
+```
+kubectl get service gowebapp --watch
+```
+
+You should see the public IP getting assigned to the Load Balancer as below.
+
+```
+NAME       TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE
+gowebapp   LoadBalancer   10.0.44.44   <pending>     80:30768/TCP   11s
+gowebapp   LoadBalancer   10.0.44.44   40.121.178.6   80:30768/TCP   73s
+```
+
+The application is available via the Public IP above in this case ```40.121.178.6```.
+
+### Cleanup
+
+Issue the following command to delete the artifacts we created in this exercise.
+
+```
+kubectl delete StorageClass/azurefile
 kubectl delete deploy/gowebapp
 kubectl delete service/gowebapp
 ```
@@ -336,6 +434,8 @@ kubectl delete service/gowebapp
 
 We started with some simple Docker commands.
 
-In this exercise we installed a simple web application that persists data in a `mysql` database.
+In this exercise we installed a simple web application that persists data in a `mysql` database that is stored on Azure files storage.
+
+You can go ahead and delete the entire Resource Group now.
 
 Congrats, you are now an Azure Kubernetes Hero!
