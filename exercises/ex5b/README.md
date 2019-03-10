@@ -20,7 +20,7 @@ Verify that you're logged into Azure and set the right subscription with the fol
 az account show
 ```
 
-We create the cluster using the following commands. You could do this from the Azure portal as well. (for **unique names USE INITIALS if required**). We will use the same name for the resource group just as a convenience.
+We create the cluster using the following commands. You could do this from the Azure portal as well. (for **unique names USE YOUR INITIALS to make it unique if required. Don't use special characters**). We will use the same name for the resource group just as a convenience.
 
 ```
 export UNIQUE_NAME=ragsAKS
@@ -34,14 +34,14 @@ First create a resource group with the following command.
 az group create --name $UNIQUE_NAME --location eastus
 ```
 
-Let's start with creating a single node AKS Cluster,
+Let's start with creating a single node AKS Cluster, using a specific version of Kubernetes, in this case ```1.12.6```.
 
 ```
-az aks create --resource-group $UNIQUE_NAME --name $UNIQUE_NAME --node-count 1 --generate-ssh-keys
+az aks create --resource-group $UNIQUE_NAME --name $UNIQUE_NAME --node-count 1 --generate-ssh-keys --enable-addons monitoring --kubernetes-version  1.12.6
 
 ```
 
-If not done earlier, to manage the Kubernetes cluster, use `kubectl`, the Kubernetes command-line client.
+If not done earlier, install `kubectl`, the Kubernetes command-line client, to manage the Kubernetes cluster.
 
 If you're using Azure CloudShell, `kubectl` is already installed. If you want to install it locally, like on your laptop, you can use the  following command
 
@@ -91,18 +91,15 @@ KubeDNS is running at https://ragsaks-ragsaks-a328d4-3cb1d9a4.hcp.eastus.azmk8s.
 kubernetes-dashboard is running at https://ragsaks-ragsaks-a328d4-3cb1d9a4.hcp.eastus.azmk8s.io:443/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy
 ```
 
-### Create a Deployment
-
-To create the deployment, use the following command.
-
-```
-kubectl run spring-boot --image=ragsns/spring-boot --port=8080
-```
-
-
 ### Create a Proxy
 
-Create a proxy with the following command.
+Run the following command so that the dashboard has access to the Kubernetes cluster.
+
+```
+kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+```
+
+Now, create a proxy with the following command.
 
 ```
 az aks browse --resource-group $UNIQUE_NAME --name $UNIQUE_NAME
@@ -116,7 +113,15 @@ which will launch a browser window and provides details about the cluster which 
 Starting to serve on 127.0.0.1:8001
 ```
 
-Poke around the cluster to look at the different artifacts.
+Poke around the cluster to look at the different artifacts of the Kubernetes Cluster.
+
+### Create a Deployment
+
+To create the deployment, use the following command.
+
+```
+kubectl run spring-boot --image=ragsns/spring-boot --port=8080
+```
 
 ### Create a Load Balancer
 
