@@ -92,35 +92,40 @@ You should see an output that looks something like below confirmation that ```My
 
 ```
 NAME:   mysql
-LAST DEPLOYED: Sun Mar  4 19:09:47 2018
+LAST DEPLOYED: Sun Mar 10 19:59:09 2019
 NAMESPACE: default
 STATUS: DEPLOYED
 
 RESOURCES:
+==> v1/Secret
+NAME   AGE
+mysql  1s
+
+==> v1/ConfigMap
+mysql-test  1s
+
 ==> v1/PersistentVolumeClaim
-NAME         STATUS   VOLUME   CAPACITY  ACCESSMODES  STORAGECLASS  AGE
-mysql-mysql  Pending  default  1s
+mysql  1s
 
 ==> v1/Service
-NAME         CLUSTER-IP    EXTERNAL-IP  PORT(S)   AGE
-mysql-mysql  10.0.204.203  <none>       3306/TCP  1s
+mysql  1s
 
 ==> v1beta1/Deployment
-NAME         DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-mysql-mysql  1        1        1           0          1s
+mysql  1s
 
-==> v1/Secret
-NAME         TYPE    DATA  AGE
-mysql-mysql  Opaque  2     1s
+==> v1/Pod(related)
+
+NAME                    READY  STATUS   RESTARTS  AGE
+mysql-5f4694c465-zdpjb  0/1    Pending  0         1s
 
 
 NOTES:
 MySQL can be accessed via port 3306 on the following DNS name from within your cluster:
-mysql-mysql.default.svc.cluster.local
+mysql.default.svc.cluster.local
 
 To get your root password run:
 
-    kubectl get secret --namespace default mysql-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode; echo
+    MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace default mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode; echo)
 
 To connect to your database:
 
@@ -133,7 +138,17 @@ To connect to your database:
     $ apt-get update && apt-get install mysql-client -y
 
 3. Connect using the mysql cli, then provide your password:
-    $ mysql -h mysql-mysql -p
+    $ mysql -h mysql -p
+
+To connect to your database directly from outside the K8s cluster:
+    MYSQL_HOST=127.0.0.1
+    MYSQL_PORT=3306
+
+    # Execute the following command to route the connection:
+    kubectl port-forward svc/mysql 3306
+
+    mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD}
+    
 ```
 
 #### Verify that MySQL is up and running
@@ -147,8 +162,11 @@ helm status mysql | grep -i -A 1 status
 You should see an output that looks like something below and should indicate it's running.
 
 ```
-NAME                          READY  STATUS   RESTARTS  AGE
-mysql-mysql-6ff5885dc6-b6q9n  1/1    Running  0         9m38s
+STATUS: DEPLOYED
+
+--
+NAME                    READY  STATUS   RESTARTS  AGE
+mysql-5f4694c465-k4bhs  1/1    Running  0         1m
 ```
 #### Update the MySQL schema
 
@@ -401,6 +419,11 @@ We create the service again with the Load Balancer IP assigned to the static IP 
 
 ```
 cat gowebapp-static.yaml | sed 's/loadBalancerIP: .*/loadBalancerIP: '$LB_IP'/g' | kubectl create -f -
+```
+
+You should again see an output that looks something like below.
+
+```
 service/gowebapp created
 ```
 
