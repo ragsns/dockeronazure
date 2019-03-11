@@ -203,7 +203,7 @@ apt-get update && apt-get install mysql-client -y
 Now install the schema in the database from inside the ubuntu container by connecting to the MySQL database as below.
 
 ```
-mysql -h mysql-mysql -pchangeme < mysql.sql
+mysql -h mysql -pchangeme < mysql.sql
 ```
 
 If everything works well you can just ignore the warning as below.
@@ -214,7 +214,7 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 Let's verify the schemas have been created properly using the `mysql` client as below.
 
 ```
-mysql -h mysql-mysql -pchangeme
+mysql -h mysql -pchangeme
 ```
 
 After you get the mysql prompt type the following commands
