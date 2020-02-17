@@ -250,7 +250,7 @@ Are you sure you want to continue connecting (yes/no)? yes
 
 Click on the `Resource Groups` and the resource group name in the filter with the generated resource group with the suffix `ukwest` as we did before.
 
-Now provide the filter `master-lb` to drill down on the laod balancer and click on the load balancer as shown below.
+Now provide the filter `master-lb` to drill down on the load balancer and click on the load balancer as shown below.
 
 <img src="../../images/portsopen1.jpeg"  width="400">
 
@@ -278,6 +278,6 @@ Make sure the rules look something like below.
 
 ### Summary and Next Steps
 
-We created a Docker cluster simply on Azure and opened up oorts on the laod balancer that has an IP address associated. We'll be using this cluster in subsequent exercises.
+We created a Docker cluster simply on Azure and opened up ports on the load balancer that has an IP address associated. We'll be using this cluster in subsequent exercises.
 
 Next, we'll walk through some simple Docker commands in the [gentle intro](../ex2).
